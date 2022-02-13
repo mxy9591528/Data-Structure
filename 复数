@@ -1,0 +1,29 @@
+typedef struct Plural
+{
+	double real;
+	double imag;
+}P;
+void Creatp(P*p, int real, int imag)
+{
+	p->real = real;
+	p->imag = imag;
+}
+void Addp(P*p1, P*p2, P*p)
+{
+	p->real = p1->real + p2->real;
+	p->imag = p1->imag + p2->imag;
+}
+void Mulp(P*p1, P*p2, P*p)
+{
+	p->real = p1->real*p2->real - (p1->imag*p2->imag);
+	p->imag = p1->real*p2->imag + p2->real*p1->imag;
+}
+void Devp(P*p1, P*p2, P*p)
+{
+	if (!p2)
+	{
+		printf("Error\n");
+	}
+	p->real = (p1->real*p2->real + p1->imag*p2->imag) / (p2->real*p2->real + p2->imag*p2->imag);
+	p->imag = (p1->imag*p2->real - p1->real*p2->imag) / (p2->real*p2->real + p2->imag*p2->imag);
+}
