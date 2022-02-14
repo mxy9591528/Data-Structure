@@ -20,7 +20,7 @@ void Mulp(P*p1, P*p2, P*p)
 }
 void Devp(P*p1, P*p2, P*p)
 {
-	if (!p2)
+	if (!p2)//This is a bad code
 	{
 		printf("Error\n");
 	}
