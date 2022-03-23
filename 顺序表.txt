@@ -1,0 +1,86 @@
+#define INITCAPACITY 3
+#define ADDNUM 2
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct Sequencechart
+{
+    int*p;
+	int capacity;
+	int sz;
+}S;
+
+int Initchart(S*pf)
+{
+	pf->capacity = INITCAPACITY;
+	pf->p = malloc(sizeof(int)*(pf->capacity));
+	pf->sz = 0;
+	return 1;
+}
+int checkcapacity(S*pf)
+{
+	if (pf->sz == pf->capacity)
+	{
+		pf->capacity += ADDNUM;
+		pf->p= realloc(pf->p, sizeof(int)*pf->capacity);
+	}
+	return 1;
+}
+int Add(S*pf, int n)
+{
+	checkcapacity(pf);
+	pf->p[pf->sz] = n;
+	pf->sz++;
+	return 1;
+}
+int Delete(S*pf, int n)
+{
+	if (!pf->sz)
+		return 0;
+	for (int i = n - 1; i < pf->sz - 1; i++)
+		pf->p[i] = pf->p[i + 1];
+	pf->sz--;
+	return 1;
+}
+int Check(S*pf, int n)
+{
+	if (!pf->sz)
+		return 0;
+	for (int i = 0; i < pf->sz; i++)
+	{
+		if (n == pf->p[i])
+		{
+			printf("找到了，下标为%d\n", i);
+		}
+	}
+	return 1;
+}
+int Modify(S*pf, int n,int ps)
+{
+	if (!pf->sz)
+		return 0;
+	if (ps > pf->sz)
+		return -1;
+	pf->p[ps] = n;
+	return 1;
+}
+int main()
+ {
+	S s;
+	Initchart(&s);
+	for (int i = 0; i < 9; i++)
+		Add(&s, i + 1);
+	for (int i = 0; i <s.sz; i++)
+		printf("%d ", s.p[i]);
+	printf("\n");
+	Delete(&s, 5);
+	for (int i = 0; i < s.sz; i++)
+		printf("%d ", s.p[i]);
+	printf("\n");
+	Modify(&s, 777, 2);
+	for (int i = 0; i < s.sz; i++)
+		printf("%d ", s.p[i]);
+	printf("\n");
+	Check(&s, 777);
+	free(s.p);
+	return 0;
+}
