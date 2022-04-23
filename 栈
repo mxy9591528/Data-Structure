@@ -1,0 +1,85 @@
+栈
+#include<stdio.h>
+#include<stdlib.h>
+#include<assert.h>
+#include<stdbool.h>
+
+#define INITCAPACITY 10
+#define ADDNUM 2
+
+typedef int STD;
+
+struct Stack
+{
+	STD*base;
+	STD top;
+	int capacity;
+};
+
+void InitStack(struct Stack*pf)
+{
+	pf->base = malloc(sizeof(int)*INITCAPACITY);
+	pf->capacity = INITCAPACITY;
+	pf->top = 0;
+}
+void checkcapacity(struct Stack*pf)
+{
+	assert(pf);
+	if (pf->top == pf->capacity)
+	{
+		pf->base = realloc(pf->base, sizeof(int)*(pf->capacity + ADDNUM));
+		pf->capacity += ADDNUM;
+	}
+}
+void Stackpush(struct Stack*pf,int n)
+{
+	checkcapacity(pf);
+	pf->base[pf->top] = n;
+	pf->top++;
+}
+
+void Stackpop(struct Stack*pf)
+{
+	assert(pf&&pf->top>0);
+	pf->top--;
+}
+
+bool Isblank(struct Stack*pf)
+{
+	assert(pf);
+	if (pf->top == 0)
+		return true;
+	else
+		return false;
+}
+void StackDestory(struct Stack*pf)
+{
+	assert(pf);
+	pf->capacity = pf->top = 0;
+	free(pf->base);
+	pf->base = NULL;
+}
+int Stacktop(struct Stack*pf)
+{
+	assert(pf&&pf->top>0);
+	return pf->base[pf->top-1];
+}
+int Stacksize(struct Stack*pf)
+{
+	assert(pf);
+	return pf->top;
+}
+int main()
+{
+	struct Stack s;
+	InitStack(&s);
+	for (int i = 0; i < 12; i++)
+		Stackpush(&s, i);
+	while (!Isblank(&s))
+	{
+		printf("%d ", Stacktop(&s));
+		Stackpop(&s);
+	}
+	StackDestory(&s);
+	return 0;
+}
